@@ -7,13 +7,15 @@ import org.simpleframework.xml.Root;
 @Root( name = "QueryResponse", strict = false )
 public class SwoogleQueryResponse
 {
-	@Element( name = "hasSearchString" )
+	@Element( name = "hasSearchString", required = false )
 	private String searchString;
-	@Element( name = "comment" )
+	@Element( name = "comment", required = false )
 	private String comment;
 	@Path( "hasResult" )
-	@Element( name = "SemanticWebDocument" )
+	@Element( name = "SemanticWebDocument", required = false )
 	private SwoogleQueryDocument document;
+	@Element( name = "hasErrorMessage", required = false )
+	private String errorMessage;
 
 	/**
 	 * @return the document
@@ -64,6 +66,16 @@ public class SwoogleQueryResponse
 	public void setComment( String comment )
 	{
 		this.comment = comment;
+	}
+
+	public String getErrorMessage()
+	{
+		return errorMessage;
+	}
+
+	public void setErrorMessage( String errorMessage )
+	{
+		this.errorMessage = errorMessage;
 	}
 
 }

@@ -79,6 +79,19 @@ public class SWoogleUtils
 		for ( String term : termList )
 		{
 			SwoogleQueryResponse diggestTerm = diggestTerm( term );
+			String errorMessage = diggestTerm.getErrorMessage();
+			if ( errorMessage != null )
+			{
+				if ( LOG.isErrorEnabled() )
+				{
+					String msg = String
+							.format(
+									"Error while trying to get swoogle rank of %s. Error message: %s",
+									term, errorMessage );
+					LOG.error( msg );
+				}
+				continue;
+			}
 			resultMap.put( term, diggestTerm );
 		}
 
