@@ -1,7 +1,7 @@
 package net.dovale.web.swoogleParser;
 
 import java.io.InputStream;
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -73,7 +73,7 @@ public class SWoogleUtils
 	}
 
 	public Map< String, SwoogleQueryResponse > diggestTerm(
-			List< String > termList )
+			Collection< String > termList )
 	{
 		Map< String, SwoogleQueryResponse > resultMap = new TreeMap< String, SwoogleQueryResponse >();
 		for ( String term : termList )

@@ -16,6 +16,23 @@ public class SwoogleQueryResponse
 	private SwoogleQueryDocument document;
 
 	/**
+	 * @return the document
+	 */
+	public SwoogleQueryDocument getDocument()
+	{
+		return document;
+	}
+
+	/**
+	 * @param document
+	 *            the document to set
+	 */
+	public void setDocument( SwoogleQueryDocument document )
+	{
+		this.document = document;
+	}
+
+	/**
 	 * @return the searchString
 	 */
 	public String getSearchString()
