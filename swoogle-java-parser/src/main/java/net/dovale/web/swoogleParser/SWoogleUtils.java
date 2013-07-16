@@ -1,8 +1,13 @@
 package net.dovale.web.swoogleParser;
 
 import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import net.dovale.web.swoogleParser.model.KeyValuePair;
+import net.dovale.web.swoogleParser.model.Swoogle;
+import net.dovale.web.swoogleParser.model.SwoogleQueryResponse;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
@@ -11,6 +16,8 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.core.Persister;
 
 /**
  * 
@@ -29,7 +36,7 @@ public class SWoogleUtils
 
 	private static String SWOOGLE_API_KEY_VALUE = "demo";
 
-	public String runQuery( String queryType, KeyValuePair... values )
+	private String runQuery( String queryType, KeyValuePair... values )
 	{
 		try
 		{
@@ -59,6 +66,40 @@ public class SWoogleUtils
 			throw new RuntimeException( message, t );
 		}
 
+	}
+
+	public Map< String, SwoogleQueryResponse > diggestTerm(
+			List< String > termList )
+	{
+		Map< String, SwoogleQueryResponse > resultMap = new TreeMap< String, SwoogleQueryResponse >();
+		for ( String term : termList )
+		{
+			SwoogleQueryResponse diggestTerm = diggestTerm( term );
+			resultMap.put( term, diggestTerm );
+		}
+
+		return resultMap;
+	}
+
+	public SwoogleQueryResponse diggestTerm( String term )
+	{
+		KeyValuePair keyValuePair = new KeyValuePair();
+		keyValuePair.setKey( "searchString" );
+		keyValuePair.setValue( term );
+		String result = runQuery( "digest_swd", keyValuePair );
+
+		try
+		{
+			Serializer serializer = new Persister();
+			Swoogle swoogle = serializer.read( Swoogle.class, result );
+			return swoogle.getQueryResponse();
+		}
+		catch ( Exception e )
+		{
+			System.out.println( e );
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	private SWoogleUtils()
