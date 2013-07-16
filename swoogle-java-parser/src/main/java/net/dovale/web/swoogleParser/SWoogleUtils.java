@@ -10,6 +10,8 @@ import net.dovale.web.swoogleParser.model.Swoogle;
 import net.dovale.web.swoogleParser.model.SwoogleQueryResponse;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -26,6 +28,8 @@ import org.simpleframework.xml.core.Persister;
  */
 public class SWoogleUtils
 {
+	private static Log LOG = LogFactory.getLog( SWoogleUtils.class );
+
 	private static String DEFAULT_ENCODE = "UTF-8";
 
 	private static String SWOOGLE_API_URL = "http://sparql.cs.umbc.edu:80/swoogle31/q";
@@ -96,8 +100,12 @@ public class SWoogleUtils
 		}
 		catch ( Exception e )
 		{
-			System.out.println( e );
-			e.printStackTrace();
+			if ( LOG.isErrorEnabled() )
+			{
+				String msg = String
+						.format( "Error while trying to deserialize a swoogle response" );
+				LOG.error( msg, e );
+			}
 		}
 		return null;
 	}
